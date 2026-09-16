@@ -1,7 +1,8 @@
 from random import randint
 class Character:
     Flasks = 3
-    def __init__(self, Health, Weapons: list):
+    def __init__(self, Health, Weapons: list, Name):
+        self.Name = Name
         self.Health = Health
         self.Weapons = Weapons
         self.EquippedWeapon = self.Weapons[0]
@@ -19,7 +20,12 @@ class Character:
         CritDamage = 1
         if randint(0, 100) <= self.EquippedWeapon.CritChance:
             CritDamage = self.EquippedWeapon.CritDamage
+            print("Critical Hit!")
         Target.Health -= self.EquippedWeapon.Damage * CritDamage
+        print(f"{self.Name} deals {self.EquippedWeapon.Damage * CritDamage} damage!")
+
+    def DisplayHealth(self):
+        print(f"{self.Name}'s HP: {self.Health}")
 
 class Enemy(Character):
     def __init__(self, Name,  Health, Weapon):
