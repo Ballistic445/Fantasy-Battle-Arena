@@ -1,4 +1,3 @@
-from Functions import *
 from random import randint
 from time import sleep
 
@@ -57,7 +56,7 @@ class Character:
         print(f"{self.Name}'s HP: {self.Health}/{self.MaxHealth}")
 
 class Enemy(Character):
-    def __init__(self, Name,  Health, Weapon):
+    def __init__(self, Name, Health, Weapon):
             self.Health = Health
             self.MaxHealth = Health
             self.EquippedWeapon = Weapon
@@ -73,8 +72,3 @@ class Weapon:
         self.ChargeTime = ChargeTime
         self.Bleed = Bleed
 
-Sword = Weapon("Sword", 20, 10, 1.5, 1, 0, 10)
-Axe = Weapon("Axe", 15, 25, 2.4, 1, 0, 10)
-BrokenSword = Weapon("Broken Sword", 5, 1, 1.2, 1, 0)
-Hammer = Weapon("Hammer", 25, 50, 2, 2, 0, 15)
-Cleaver = Weapon("Cleaver", 12, 20, 2, 1, 2, 15)

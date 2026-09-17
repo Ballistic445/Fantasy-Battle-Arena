@@ -1,5 +1,5 @@
-from Classes import *
 from time import sleep
+from Classes import *
 
 def Choose(Choices, Message):
     while True:
@@ -43,7 +43,7 @@ def Combat(Player, Opponent):
         Opponent.DisplayHealth()
         if Opponent.Health > 0 and Player.Health > 0:
             Fight(Player, Opponent)
-        if Opponent.Health > 0:
+        if Opponent.Health > 0 and Player.Health > 0:
             Fight(Opponent, Player)
     if Player.Health > 0:
         return True
