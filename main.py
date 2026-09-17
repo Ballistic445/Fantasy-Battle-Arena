@@ -1,21 +1,24 @@
 from FunctionsAndClasses import *
+from sys import exit
 
 Health, Weapons = SetupCharacter()
 Player = Character(Health, Weapons, "Player")
-Hollow = Enemy("Hollow", 35, [BrokenSword])
+Hollow = Enemy("Hollow", 35, BrokenSword)
+Soldier = Enemy("Soldier", 75, Hammer)
 
-print(f"Health: {Player.Health}")
+print(f"\nHealth: {Player.Health}")
 print(f"Weapons: {Player.Weapons[0].Name}")
+sleep(1)
 
-while Player.Health > 0 and Hollow.Health > 0:
-    print("\n")
-    Player.DisplayHealth()
-    Hollow.DisplayHealth()
-    Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Player.Flasks} flasks left)")
-    if Choice == "heal":
-        print("\nHealing...")
-        Player.Heal()
-    elif Choice == "fight":
-        Player.Attack(Hollow)
+if Combat(Player, Hollow):
+    print("You won!")
+else: 
+    print("You died... :(")
+    exit()
 
-print("You won!")
+
+if Combat(Player, Soldier):
+    print("You won!")
+else: 
+    print("You died... :(")
+    exit()
