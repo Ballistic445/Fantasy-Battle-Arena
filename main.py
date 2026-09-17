@@ -1,4 +1,5 @@
-from FunctionsAndClasses import *
+from Functions import *
+from Classes import *
 from sys import exit
 
 Health, Weapons = SetupCharacter()
