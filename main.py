@@ -16,6 +16,7 @@ else:
     print("You died... :(")
     exit()
 
+sleep(2)
 
 if Combat(Player, Soldier):
     print("You won!")
