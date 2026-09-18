@@ -5,6 +5,7 @@ class Character:
     Flasks = 3
     ChargeTimer = 1
     bleed = 0
+    Gold = 0
     def __init__(self, Health, Weapons: list, Name):
         self.Name = Name
         self.Health = Health
@@ -44,9 +45,9 @@ class Character:
     def Bleed(self):
         Damage = self.bleed * 2
         if self.bleed >= 5:
-            print(f"{self.Name} bursts out in blood, losing 20 HP")
+            print(f"{self.Name} bursts out in blood, losing 15 HP")
             self.bleed %= 5
-            Damage = 20
+            Damage = 15
         elif self.bleed > 0:
             print(f"{self.Name} bleeds out, losing {Damage} HP.")
             self.bleed -= 1
@@ -56,11 +57,12 @@ class Character:
         print(f"{self.Name}'s HP: {self.Health}/{self.MaxHealth}")
 
 class Enemy(Character):
-    def __init__(self, Name, Health, Weapon):
+    def __init__(self, Name, Health, Weapon, Gold):
             self.Health = Health
             self.MaxHealth = Health
             self.EquippedWeapon = Weapon
             self.Name = Name
+            self.Gold = Gold
 
 class Weapon:
     def __init__(self, Name,  Damage, CritChance, CritDamage, ChargeTime, Bleed, Cost = 0):
@@ -71,4 +73,3 @@ class Weapon:
         self.Name = Name
         self.ChargeTime = ChargeTime
         self.Bleed = Bleed
-
