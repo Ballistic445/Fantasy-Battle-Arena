@@ -23,6 +23,7 @@ class Character:
         if self.Health > 100: self.Health = 100
 
     def Attack(self, Target):
+        print("")
         CritDamage = 1
         InflictsBleed = 0
         if self.EquippedWeapon.ChargeTime == self.ChargeTimer:

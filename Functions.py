@@ -11,7 +11,7 @@ def Choose(Choices, Message):
 def SetupCharacter(WeaponOptions):
     print("Fantasy Battle arena!\nCreate your character:\n ")
     Health = 100
-    Weapons = Choose(["sword", "axe", "cleaver"], "Choose Your Weapon:\n- Sword\n- Axe\n- Cleaver")
+    Weapons = Choose([i.Name.lower() for i in WeaponOptions], "Choose Your Weapon:\n- Sword\n- Axe")
     for i in WeaponOptions:
         if Weapons == i.Name.lower():
             Weapons = i
@@ -46,12 +46,39 @@ def Combat(Player, Opponent):
         return True
     else: return False
 
+def FindSmallestNumber(Numbers: list):
+    SmallestNumber = 99999
+    for i in Numbers:
+        if i < SmallestNumber:
+            SmallestNumber = i
+    return SmallestNumber
+
 def Shop(Buyer, Inventory: list):
-    #show buyer wares
-    #allow buyer to choose
-    #give item to buyer
-    #loop until cant buy anything else or exits
-    pass
+    print("\nGood day, Dear customer!\nHere are my wares:")
+    for i in Inventory:
+        print(f"- {i.Name} ({i.Cost} Gold)")
+    print("")
+    CheapestPrice = FindSmallestNumber([i.Cost for i in Inventory])
+    while True:
+        if Buyer.Gold < CheapestPrice:
+            print("It appears you don't have enough money to buy anything...")
+            break
+        Item = Choose([i.Name.lower() for i in Inventory], f"What would you like to buy? (Gold: {Buyer.Gold})")
+        for i in Inventory:
+            if Item == i.Name.lower():
+                Item = i
+        if Buyer.Gold < Item.Cost:
+            print(f"Sorry, but you don't have enough money to buy this. (You need {Item.Cost - Buyer.Gold} more Gold)")
+        elif Item in Buyer.Weapons:
+            print("It appears that you already have one of these...")
+        else:
+            print(f"\nPleasure doing business with you!\nObtained the {Item.Name}!")
+            Buyer.Weapons.append(Item)
+            Buyer.Gold -= Item.Cost
+            break       
+    sleep(1)
+    print("Come again soon!")
+    sleep(2)
 
 Sword = Weapon("Sword", 20, 10, 1.5, 1, 0, 10)
 Axe = Weapon("Axe", 15, 25, 2.4, 1, 0, 10)
