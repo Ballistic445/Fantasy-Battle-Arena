@@ -20,13 +20,19 @@ def SetupCharacter(WeaponOptions):
 def Fight(Attacker, Defender):
     print(f"{Attacker.Name}'s turn:")
     if Attacker.Name == "Player":
-        Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Attacker.Flasks} flasks left)")
-        if Choice == "heal":
-            print("\nHealing...")
-            sleep(0.5)
-            Attacker.Heal()
-        elif Choice == "fight":
-            Attacker.Attack(Defender)
+        while True:
+            if Attacker.IsChargingAttack == False:
+                Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Attacker.Flasks} flasks left)")
+            else:
+                Choice = Choose(["fight"], "\nThere is only one option.\n- Fight")
+            if Choice == "heal":
+                print("\nHealing...")
+                sleep(0.5)
+                Attacker.Heal()
+                break
+            elif Choice == "fight":
+                Attacker.Attack(Defender)
+                break
     else:
         sleep(1)
         Attacker.Attack(Defender)
@@ -85,4 +91,4 @@ Axe = Weapon("Axe", 15, 25, 2.4, 1, 0, 10)
 BrokenSword = Weapon("Broken Sword", 2, 1, 1.5, 1, 0)
 Hammer = Weapon("Hammer", 25, 50, 2, 2, 0, 15)
 Cleaver = Weapon("Cleaver", 12, 20, 2, 1, 2, 10)
-Dagger = Weapon("Dagger", 8, 25, 1.75, 1, 2, 15)
+Dagger = Weapon("Dagger", 8, 30, 1.75, 1, 2, 15)

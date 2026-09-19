@@ -4,6 +4,7 @@ from time import sleep
 class Character:
     Flasks = 3
     ChargeTimer = 1
+    IsChargingAttack = False
     bleed = 0
     Gold = 0
     def __init__(self, Health, Weapons: list, Name):
@@ -38,9 +39,11 @@ class Character:
             Target.bleed += InflictsBleed
             print(f"{self.Name} deals {self.EquippedWeapon.Damage * CritDamage} damage!")
             self.ChargeTimer = 1
+            self.IsChargingAttack = False
         else:
             print(f"{self.Name} is Charging up an attack...")
             self.ChargeTimer += 1
+            self.IsChargingAttack = True
         sleep(0.8)
 
     def Bleed(self):
@@ -56,6 +59,12 @@ class Character:
 
     def DisplayHealth(self):
         print(f"{self.Name}'s HP: {self.Health}/{self.MaxHealth}")
+
+    def DisplayWeaponInventory(self):
+        print("\nCurrently owned weapons: ")
+        for i in self.Weapons:
+            print(f"- {i.Name}")
+        print(f"Equipped weapon: {self.EquippedWeapon.Name}")
 
 class Enemy(Character):
     def __init__(self, Name, Health, Weapon, Gold):
