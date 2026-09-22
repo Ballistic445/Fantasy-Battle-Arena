@@ -31,11 +31,11 @@ for i in Enemies:
         if Decision == "shop":
             print("\nEntering the shop...")
             sleep(1)
-            Shop(Player, [Sword, Axe, Cleaver, Hammer, Dagger, ShopFlasks])
+            Shop(Player, [Sword, Axe, Cleaver, Hammer, Dagger, Mace, ShopFlasks])
         elif Decision == "inv":
             Player.DisplayWeaponInventory()
             if Choose(["y", "n"], "Would you like to change your equipped weapon? (y/n)") == "y":
-                NewEquippedWeapon = Choose([i.Name.lower() for i in Player.Weapons], "Enter the name of the wqapon you want to equip")
+                NewEquippedWeapon = Choose([i.Name.lower() for i in Player.Weapons], "Enter the name of the weapon you want to equip")
                 for i in Player.Weapons:
                     if NewEquippedWeapon == i.Name.lower():
                         Player.EquippedWeapon = i

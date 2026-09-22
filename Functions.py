@@ -69,10 +69,14 @@ def Shop(Buyer, Inventory: list):
         if Buyer.Gold < CheapestPrice:
             print("It appears you don't have enough money to buy anything...")
             break
-        Item = Choose([i.Name.lower() for i in Inventory], f"What would you like to buy? (Gold: {Buyer.Gold})")
+        Options = [i.Name.lower() for i in Inventory]
+        Options.append("exit")
+        Item = Choose(Options, f"What would you like to buy? (Gold: {Buyer.Gold})\nYou can exit the shop by typing 'exit'")
         for i in Inventory:
             if Item == i.Name.lower():
                 Item = i
+        if Item == "exit":
+            break
         if Buyer.Gold < Item.Cost:
             print(f"Sorry, but you don't have enough money to buy this. (You need {Item.Cost - Buyer.Gold} more Gold)")
         elif Item in Buyer.Weapons:
@@ -94,5 +98,6 @@ Sword = Weapon("Sword", 20, 10, 1.5, 1, 0, 10)
 Axe = Weapon("Axe", 15, 25, 2.4, 1, 0, 10)
 BrokenSword = Weapon("Broken Sword", 2, 1, 1.5, 1, 0)
 Hammer = Weapon("Hammer", 25, 50, 2, 2, 0, 15)
-Cleaver = Weapon("Cleaver", 12, 20, 2, 1, 2, 10)
-Dagger = Weapon("Dagger", 8, 30, 1.75, 1, 2, 15)
+Cleaver = Weapon("Cleaver", 12, 25, 2, 1, 2, 10)
+Dagger = Weapon("Dagger", 8, 35, 1.75, 1, 2, 15)
+Mace = Weapon("Mace", 30, 30, 1.4, 2, 2, 15)
