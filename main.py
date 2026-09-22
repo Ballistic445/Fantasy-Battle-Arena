@@ -7,6 +7,7 @@ Player = Character(Health, Weapons, "Player")
 Hollow = Enemy("Hollow", 35, BrokenSword, 5)
 Soldier = Enemy("Soldier", 75, Hammer, 10)
 Assassin = Enemy("Assassin", 100, Dagger, 20)
+ShopFlasks = Flask(5, Player.HealthFlasks.Potency, 5, "Health Flask")
 
 Enemies = [Hollow, Soldier, Assassin]
 
@@ -30,7 +31,7 @@ for i in Enemies:
         if Decision == "shop":
             print("\nEntering the shop...")
             sleep(1)
-            Shop(Player, [Sword, Axe, Cleaver, Hammer, Dagger])
+            Shop(Player, [Sword, Axe, Cleaver, Hammer, Dagger, ShopFlasks])
         elif Decision == "inv":
             Player.DisplayWeaponInventory()
             if Choose(["y", "n"], "Would you like to change your equipped weapon? (y/n)") == "y":

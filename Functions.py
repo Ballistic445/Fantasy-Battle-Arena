@@ -22,7 +22,7 @@ def Fight(Attacker, Defender):
     if Attacker.Name == "Player":
         while True:
             if Attacker.IsChargingAttack == False:
-                Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Attacker.Flasks} flasks left)")
+                Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Attacker.HealthFlasks.Count} flasks left)")
             else:
                 Choice = Choose(["fight"], "\nThere is only one option.\n- Fight")
             if Choice == "heal":
@@ -79,8 +79,12 @@ def Shop(Buyer, Inventory: list):
             print("It appears that you already have one of these...")
         else:
             print(f"\nPleasure doing business with you!\nObtained the {Item.Name}!")
-            Buyer.Weapons.append(Item)
-            Buyer.Gold -= Item.Cost
+            if Item.Name == "Health Flask":
+                Buyer.HealthFlasks.Count += 1
+                Inventory[-1].Count -= 1
+            else:
+                Buyer.Weapons.append(Item)
+                Buyer.Gold -= Item.Cost
             break       
     sleep(1)
     print("Come again soon!")

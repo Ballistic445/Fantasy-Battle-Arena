@@ -1,12 +1,20 @@
 from random import randint
 from time import sleep
 
+class Flask:
+    def __init__(self, Count, Potency, Cost, Name):
+        self.Count = Count
+        self.MaxCount = Count
+        self.Potency = Potency
+        self.Cost = Cost
+        self.Name = Name
+
 class Character:
-    Flasks = 3
     ChargeTimer = 1
     IsChargingAttack = False
     bleed = 0
     Gold = 0
+    HealthFlasks = Flask(3, 40, 0, "Health Flask")
     def __init__(self, Health, Weapons: list, Name):
         self.Name = Name
         self.Health = Health
@@ -15,9 +23,9 @@ class Character:
         self.EquippedWeapon = self.Weapons[0]
 
     def Heal(self):
-        if self.Flasks > 0:
-            self.Health += 40
-            self.Flasks -= 1
+        if self.HealthFlasks.Count > 0:
+            self.Health += self.HealthFlasks.Potency
+            self.HealthFlasks.Count -= 1
         else:
             print("No Flasks Left")
             return 0
