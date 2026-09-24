@@ -31,21 +31,21 @@ class Character:
             return 0
         if self.Health > 100: self.Health = 100
 
-    def Attack(self, Target):
+    def Attack(self, Target, ProfileIndex):
         print("")
         CritDamage = 1
         InflictsBleed = 0
-        if self.EquippedWeapon.ChargeTime == self.ChargeTimer:
-            if randint(0, 100) <= self.EquippedWeapon.CritChance:
-                CritDamage = self.EquippedWeapon.CritDamage
-                InflictsBleed = self.EquippedWeapon.Bleed * 2
+        if self.EquippedWeapon.Profiles[ProfileIndex].ChargeTime == self.ChargeTimer:
+            if randint(0, 100) <= self.EquippedWeapon.Profiles[ProfileIndex].CritChance:
+                CritDamage = self.EquippedWeapon.Profiles[ProfileIndex].CritDamage
+                InflictsBleed = self.EquippedWeapon.Profiles[ProfileIndex].Bleed * 2
                 print("Critical Hit!")
                 sleep(0.5)
-            elif randint(0, 100) <= self.EquippedWeapon.CritChance * 2:
-                InflictsBleed = self.EquippedWeapon.Bleed
-            Target.Health -= self.EquippedWeapon.Damage * CritDamage
+            elif randint(0, 100) <= self.EquippedWeapon.Profiles[ProfileIndex].CritChance * 2:
+                InflictsBleed = self.EquippedWeapon.Profiles[ProfileIndex].Bleed
+            Target.Health -= self.EquippedWeapon.Profiles[ProfileIndex].Damage * CritDamage
             Target.bleed += InflictsBleed
-            print(f"{self.Name} deals {self.EquippedWeapon.Damage * CritDamage} damage!")
+            print(f"{self.Name} deals {self.EquippedWeapon.Profiles[ProfileIndex].Damage * CritDamage} damage!")
             self.ChargeTimer = 1
             self.IsChargingAttack = False
         else:
@@ -83,11 +83,16 @@ class Enemy(Character):
             self.Gold = Gold
 
 class Weapon:
-    def __init__(self, Name,  Damage, CritChance, CritDamage, ChargeTime, Bleed, Cost = 0):
+    def __init__(self, Name, Profiles: list, Cost = 0):
         self.Cost = Cost
+        self.Name = Name
+        self.Profiles = Profiles
+
+class WeaponProfile:
+    def __init__(self, Name, Damage, CritChance, CritDamage, ChargeTime, Bleed):
+        self.Name = Name
         self.Damage = Damage
         self.CritChance = CritChance
-        self.CritDamage = CritDamage
-        self.Name = Name
+        self.CritDamage = CritDamage       
         self.ChargeTime = ChargeTime
         self.Bleed = Bleed

@@ -17,7 +17,7 @@ def SetupCharacter(WeaponOptions):
             Weapons = i
     return Health, [Weapons]
 
-def Fight(Attacker, Defender):
+def Fight(Attacker, Defender, ProfileIndexStorage = 0):
     print(f"{Attacker.Name}'s turn:")
     if Attacker.Name == "Player":
         while True:
@@ -31,11 +31,21 @@ def Fight(Attacker, Defender):
                 Attacker.Heal()
                 break
             elif Choice == "fight":
-                Attacker.Attack(Defender)
+                Attacker.Attack(Defender, 0)
                 break
     else:
         sleep(1)
-        Attacker.Attack(Defender)
+        ProfileIndex = randint(0, len(Attacker.EquippedWeapon.Profiles) - 1)
+        try: 
+            if Attacker.IsChargingAttack == False:
+                ProfileIndexStorage = ProfileIndex
+            else:
+                ProfileIndex = ProfileIndexStorage
+        except UnboundLocalError:
+            try: ProfileIndex = ProfileIndexStorage
+            except UnboundLocalError:
+                pass
+        Attacker.Attack(Defender, ProfileIndex)
 
 def Combat(Player, Opponent):
     while Player.Health > 0 and Opponent.Health > 0:
@@ -47,7 +57,9 @@ def Combat(Player, Opponent):
         if Opponent.Health > 0 and Player.Health > 0:
             Fight(Player, Opponent)
         if Opponent.Health > 0 and Player.Health > 0:
-            Fight(Opponent, Player)
+            try: ProfileIndex = Fight(Opponent, Player, ProfileIndex)
+            except UnboundLocalError:
+                Fight(Opponent, Player)
     if Player.Health > 0:
         return True
     else: return False
@@ -85,19 +97,21 @@ def Shop(Buyer, Inventory: list):
             print(f"\nPleasure doing business with you!\nObtained the {Item.Name}!")
             if Item.Name == "Health Flask":
                 Buyer.HealthFlasks.Count += 1
+                Buyer.HealthFlasks.MaxCount += 1
                 Inventory[-1].Count -= 1
             else:
                 Buyer.Weapons.append(Item)
-                Buyer.Gold -= Item.Cost
+            Buyer.Gold -= Item.Cost
             break       
     sleep(1)
     print("Come again soon!")
     sleep(2)
 
-Sword = Weapon("Sword", 20, 10, 1.5, 1, 0, 10)
-Axe = Weapon("Axe", 15, 25, 2.4, 1, 0, 10)
-BrokenSword = Weapon("Broken Sword", 2, 1, 1.5, 1, 0)
-Hammer = Weapon("Hammer", 25, 50, 2, 2, 0, 15)
-Cleaver = Weapon("Cleaver", 12, 25, 2, 1, 2, 10)
-Dagger = Weapon("Dagger", 8, 35, 1.75, 1, 2, 15)
-Mace = Weapon("Mace", 30, 30, 1.4, 2, 2, 15)
+Sword = Weapon("Sword", [WeaponProfile("strike", 20, 10, 1.5, 1, 0)], 10)
+Axe = Weapon("Axe", [WeaponProfile("strike", 15, 25, 2.4, 1, 0)], 10)
+BrokenSword = Weapon("Broken Sword", [WeaponProfile("Strike", 2, 1, 1.5, 1, 0)], 0)
+Hammer = Weapon("Hammer", [WeaponProfile("Strike", 25, 50, 2, 2, 0)], 15)
+Cleaver = Weapon("Cleaver", [WeaponProfile("Strike", 12, 25, 2, 1, 2)], 10)
+Dagger = Weapon("Dagger", [WeaponProfile("Strike", 8, 35, 1.75, 1, 2)], 15)
+Mace = Weapon("Mace", [WeaponProfile("Strike", 30, 30, 1.4, 2, 2)], 15)
+Greatsword = Weapon ("Greatsword", [WeaponProfile("Strike", 38, 30, 1.5, 2, 0), WeaponProfile("Sweep", 18, 20, 1.5, 1, 0)], 20)

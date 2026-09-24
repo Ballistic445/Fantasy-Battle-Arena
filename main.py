@@ -4,17 +4,22 @@ from sys import exit
 
 Health, Weapons = SetupCharacter([Sword, Axe])
 Player = Character(Health, Weapons, "Player")
-Hollow = Enemy("Hollow", 35, BrokenSword, 5)
+Undead = Enemy("Hollow", 35, BrokenSword, 5)
 Soldier = Enemy("Soldier", 75, Hammer, 10)
 Assassin = Enemy("Assassin", 100, Dagger, 20)
+Knight = Enemy("Knight", 125, Greatsword, 30)
 ShopFlasks = Flask(5, Player.HealthFlasks.Potency, 5, "Health Flask")
 
-Enemies = [Hollow, Soldier, Assassin]
+Enemies = [Undead, Soldier, Assassin, Knight]
 
 print("\nGet ready...")
 sleep(2.5)
 
+x = 1
 for i in Enemies:
+    if x % 4 == 0:
+        print("Flasks Replenished!")
+        Player.HealthFlasks.Count = Player.HealthFlasks.MaxCount 
     if Combat(Player, i):
         print("Enemy Defeated!")
         print(f"You have earned {i.Gold} Gold.")
@@ -45,5 +50,6 @@ for i in Enemies:
             print("\nThe next enemy approaches...")
             break
     sleep(2)
+    x += 1
 
 print("\nYou won!")
