@@ -2,12 +2,12 @@ from Classes import *
 from Functions import *
 from sys import exit
 
-Health, Weapons = SetupCharacter([Sword, Axe])
+Health, Weapons = SetupCharacter([Sword, Axe, Mace])
 Player = Character(Health, Weapons, "Player")
-Undead = Enemy("Hollow", 35, BrokenSword, 5)
+Undead = Enemy("Undead", 35, BrokenSword, 5)
 Soldier = Enemy("Soldier", 75, Hammer, 10)
 Assassin = Enemy("Assassin", 100, Dagger, 20)
-Knight = Enemy("Knight", 125, Greatsword, 30)
+Knight = Enemy("Knight", 150, Greatsword, 30)
 ShopFlasks = Flask(5, Player.HealthFlasks.Potency, 5, "Health Flask")
 
 Enemies = [Undead, Soldier, Assassin, Knight]
@@ -17,9 +17,6 @@ sleep(2.5)
 
 x = 1
 for i in Enemies:
-    if x % 4 == 0:
-        print("Flasks Replenished!")
-        Player.HealthFlasks.Count = Player.HealthFlasks.MaxCount 
     if Combat(Player, i):
         print("Enemy Defeated!")
         print(f"You have earned {i.Gold} Gold.")
@@ -31,6 +28,12 @@ for i in Enemies:
         print("You died... :(")
         exit()
     sleep(0.5)
+    if x % 3 == 0:
+        print("\nHealth and Flasks Replenished!")
+        sleep(1)
+        Player.Health = Player.MaxHealth
+        Player.HealthFlasks.Count = Player.HealthFlasks.MaxCount
+        Player.bleed = 0
     while True:
         Decision = Choose(["hunt", "shop", "inv"], "\nwhat would You like to do next?\n- Hunt down another enemy (Type 'hunt')\n- Go to the shop (Type 'shop')\n- View weapon inventory (Type 'inv')") 
         if Decision == "shop":
@@ -47,7 +50,10 @@ for i in Enemies:
                         print(f"You have equipped the {i.Name}!")
                         sleep(1)
         else:
-            print("\nThe next enemy approaches...")
+            if x % 3 == 0:
+                print("\nElite enemy incoming...")
+            else:
+                print("\nThe next enemy approaches...")
             break
     sleep(2)
     x += 1

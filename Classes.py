@@ -15,6 +15,7 @@ class Character:
     bleed = 0
     Gold = 0
     HealthFlasks = Flask(3, 40, 0, "Health Flask")
+    ProfileIndexStorage = 0
     def __init__(self, Health, Weapons: list, Name):
         self.Name = Name
         self.Health = Health
@@ -55,10 +56,10 @@ class Character:
         sleep(0.8)
 
     def Bleed(self):
-        Damage = self.bleed * 2
-        if self.bleed >= 5:
+        Damage = self.bleed
+        if self.bleed >= 10:
             print(f"{self.Name} bursts out in blood, losing 15 HP")
-            self.bleed %= 5
+            self.bleed %= 10
             Damage = 15
         elif self.bleed > 0:
             print(f"{self.Name} bleeds out, losing {Damage} HP.")
@@ -87,6 +88,10 @@ class Weapon:
         self.Cost = Cost
         self.Name = Name
         self.Profiles = Profiles
+
+    def DisplayProfiles(self):
+        for i in self.Profiles:
+            print(f"- {i.Name}: {i.Damage} dmg, {i.CritChance}% Crit Chance, {i.ChargeTime} turn(s) to charge")
 
 class WeaponProfile:
     def __init__(self, Name, Damage, CritChance, CritDamage, ChargeTime, Bleed):
