@@ -2,7 +2,7 @@ from Classes import *
 from Functions import *
 from sys import exit
 
-Health, Weapons = SetupCharacter([Sword, Axe, Mace])
+Health, Weapons = SetupCharacter([Sword, Axe])
 Player = Character(Health, Weapons, "Player")
 Undead = Enemy("Undead", 35, BrokenSword, 5)
 Soldier = Enemy("Soldier", 75, Hammer, 10)
@@ -36,16 +36,16 @@ for i in Enemies:
         Player.bleed = 0
     while True:
         Decision = Choose(["hunt", "shop", "inv"], "\nwhat would You like to do next?\n- Hunt down another enemy (Type 'hunt')\n- Go to the shop (Type 'shop')\n- View weapon inventory (Type 'inv')") 
-        if Decision == "shop":
+        if Decision == "shop" or Decision == "s":
             print("\nEntering the shop...")
             sleep(1)
             Shop(Player, [Sword, Axe, Cleaver, Hammer, Dagger, Mace, ShopFlasks])
-        elif Decision == "inv":
+        elif Decision == "inv" or Decision == "i":
             Player.DisplayWeaponInventory()
             if Choose(["y", "n"], "Would you like to change your equipped weapon? (y/n)") == "y":
                 NewEquippedWeapon = Choose([i.Name.lower() for i in Player.Weapons], "Enter the name of the weapon you want to equip")
                 for i in Player.Weapons:
-                    if NewEquippedWeapon == i.Name.lower():
+                    if NewEquippedWeapon == i.Name.lower() or NewEquippedWeapon == Condense(i.Name.lower()):
                         Player.EquippedWeapon = i
                         print(f"You have equipped the {i.Name}!")
                         sleep(1)

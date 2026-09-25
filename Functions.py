@@ -1,11 +1,19 @@
 from time import sleep
 from Classes import *
 
+def Condense(Item):
+    Item = Item.split()
+    Temp = ""
+    for i in Item:
+        Temp += i[0]
+    return Temp
+
 def Choose(Choices, Message):
+    CondensedChoices = [Condense(i) for i in Choices]
     while True:
         out = input(f"{Message}\n> ")
         out = out.lower()
-        if out in Choices:
+        if out in Choices or out in CondensedChoices:
             return out
         
 def SetupCharacter(WeaponOptions):
@@ -13,7 +21,7 @@ def SetupCharacter(WeaponOptions):
     Health = 100
     Weapons = Choose([i.Name.lower() for i in WeaponOptions], "Choose Your Weapon:\n- Sword\n- Axe")
     for i in WeaponOptions:
-        if Weapons == i.Name.lower():
+        if Weapons == i.Name.lower() or Weapons == Condense(i.Name.lower()):
             Weapons = i
     return Health, [Weapons]
 
@@ -25,12 +33,12 @@ def Fight(Attacker, Defender):
                 Choice = Choose(["fight", "heal"], f"\nWhat will you do?\n- Fight\n- Heal ({Attacker.HealthFlasks.Count} flasks left)")
             else:
                 Choice = Choose(["fight"], "\nThere is only one option.\n- Fight")
-            if Choice == "heal":
+            if Choice == "heal" or Choice == "h":
                 print("\nHealing...")
                 sleep(0.5)
                 Attacker.Heal()
                 break
-            elif Choice == "fight":
+            elif Choice == "fight" or Choice == "f":
                 if not Attacker.IsChargingAttack:
                     print("")
                     Attacker.EquippedWeapon.DisplayProfiles()
@@ -38,7 +46,7 @@ def Fight(Attacker, Defender):
                     SelectedProfile = Choose(AttackProfiles, "How do you attack?")
                 try:
                     for i in range(len(Attacker.EquippedWeapon.Profiles)):
-                        if Attacker.EquippedWeapon.Profiles[i].Name.lower() == SelectedProfile:
+                        if Attacker.EquippedWeapon.Profiles[i].Name.lower() == SelectedProfile or Condense(Attacker.EquippedWeapon.Profiles[i].Name.lower()) == SelectedProfile:
                             Attacker.ProfileIndexStorage = i
                             Attacker.Attack(Defender, i)
                 except UnboundLocalError:
@@ -93,9 +101,9 @@ def Shop(Buyer, Inventory: list):
         Options.append("exit")
         Item = Choose(Options, f"What would you like to buy? (Gold: {Buyer.Gold})\nYou can exit the shop by typing 'exit'")
         for i in Inventory:
-            if Item == i.Name.lower():
+            if Item == i.Name.lower() or Item == Condense(i.Name.lower()):
                 Item = i
-        if Item == "exit":
+        if Item == "exit" or Item == "e":
             break
         if Buyer.Gold < Item.Cost:
             print(f"Sorry, but you don't have enough money to buy this. (You need {Item.Cost - Buyer.Gold} more Gold)")
